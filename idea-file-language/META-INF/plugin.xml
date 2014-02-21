@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>com.github.mfedko.idea.plugins.filelanguage</id>
-  <name>Override File Type</name>
-  <version>1.0</version>
+  <name>Override File Language</name>
+  <version>0.0.1</version>
   <vendor email="mfedko@gmail.com" url="http://www.aboutecho.com">Echo</vendor>
 
   <description><![CDATA[
