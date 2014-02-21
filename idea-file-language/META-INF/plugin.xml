@@ -1,0 +1,46 @@
+<idea-plugin version="2">
+  <id>com.github.mfedko.idea.plugins.filelanguage</id>
+  <name>Override File Type</name>
+  <version>1.0</version>
+  <vendor email="mfedko@gmail.com" url="http://www.aboutecho.com">Echo</vendor>
+
+  <description><![CDATA[
+      Set custom language for your files.
+      <p />
+    ]]></description>
+
+  <change-notes><![CDATA[
+      0.0.1 - initial version.
+    ]]>
+  </change-notes>
+
+  <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
+  <idea-version since-build="133"/>
+
+  <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
+       on how to target different products -->
+  <depends>com.intellij.modules.lang</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <lang.substitutor
+            language="TEXT"
+            implementationClass="com.github.mfedko.idea.plugins.filelanguage.FilesLanguageSubstitutor"/>
+  </extensions>
+
+  <application-components>
+  </application-components>
+
+  <project-components>
+      <component>
+          <implementation-class>com.github.mfedko.idea.plugins.filelanguage.FileLanguageProjectComponent</implementation-class>
+      </component>
+  </project-components>
+
+  <actions>
+      <group class="com.github.mfedko.idea.plugins.filelanguage.SetFileLanguageActionGroup"
+             popup="true"
+             text="File Languages"
+             id="ChangeFileLanguage" />
+  </actions>
+
+</idea-plugin>
