@@ -9,14 +9,20 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
+import java.util.*;
 
 public class SetFileLanguageActionGroup extends ActionGroup {
 
     final private Supplier<AnAction[]> actionsSupplier = Suppliers.memoize(new Supplier<AnAction[]>() {
         @Override
         public AnAction[] get() {
-            Collection<Language> languages = Language.getRegisteredLanguages();
+            List<Language> languages = new ArrayList<Language>(Language.getRegisteredLanguages());
+            Collections.sort(languages, new Comparator<Language>() {
+                @Override
+                public int compare(Language o1, Language o2) {
+                    return o1.getDisplayName().compareTo(o2.getDisplayName());
+                }
+            });
             AnAction[] actions = new AnAction[languages.size()];
             int i = 0;
             for (Language language : languages) {
