@@ -1,8 +1,8 @@
 <idea-plugin version="2">
   <id>com.github.mfedko.idea.plugins.filelanguage</id>
   <name>Override File Language</name>
-  <version>0.0.1</version>
-  <vendor email="mfedko@gmail.com" url="http://www.aboutecho.com">Echo</vendor>
+  <version>0.0.2</version>
+  <vendor email="mfedko@gmail.com" url="http://github.com/mfedko">Mikhail Fedko</vendor>
 
   <description><![CDATA[
       Set custom language for your files.
@@ -10,12 +10,13 @@
     ]]></description>
 
   <change-notes><![CDATA[
+      0.0.2 - made plugin EAP-15 compatible.
       0.0.1 - initial version.
     ]]>
   </change-notes>
 
   <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
-  <idea-version since-build="133"/>
+  <idea-version since-build="141"/>
 
   <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
        on how to target different products -->

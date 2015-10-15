@@ -12,7 +12,6 @@ import com.intellij.openapi.wm.StatusBar;
 import com.intellij.openapi.wm.WindowManager;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("ComponentNotRegistered")
 public class SetFileLanguageAction extends AnAction {
 
     private static final Logger LOG = Logger.getInstance(SetFileLanguageAction.class);
@@ -46,20 +45,17 @@ public class SetFileLanguageAction extends AnAction {
         }
 
         Application application = ApplicationManager.getApplication();
-        application.runWriteAction(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    file.putUserData(FilesLanguageSubstitutor.LANGUAGE_KEY, language);
-                    FileTypeManagerEx.getInstanceEx().fireFileTypesChanged();
-                    StatusBar statusBar = WindowManager.getInstance().getStatusBar(project);
-                    FileLanguagePanel fileLanguage = (FileLanguagePanel) (statusBar != null ? statusBar.getWidget("FileLanguage") : null);
-                    if (fileLanguage != null) {
-                        fileLanguage.doUpdate();
-                    }
-                } catch (Exception e) {
-                    LOG.warn(e);
+        application.runWriteAction(() -> {
+            try {
+                file.putUserData(FilesLanguageSubstitutor.LANGUAGE_KEY, language);
+                FileTypeManagerEx.getInstanceEx().fireFileTypesChanged();
+                StatusBar statusBar = WindowManager.getInstance().getStatusBar(project);
+                FileLanguagePanel fileLanguage = (FileLanguagePanel) (statusBar != null ? statusBar.getWidget("FileLanguage") : null);
+                if (fileLanguage != null) {
+                    fileLanguage.doUpdate();
                 }
+            } catch (Exception e1) {
+                LOG.warn(e1);
             }
         });
     }
