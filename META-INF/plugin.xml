@@ -1,16 +1,16 @@
 <idea-plugin version="2">
   <id>com.github.mfedko.idea.plugins.filelanguage</id>
   <name>Override File Language</name>
-  <version>0.0.2</version>
-  <vendor email="mfedko@gmail.com" url="http://github.com/mfedko">Mikhail Fedko</vendor>
+  <version>0.0.3</version>
+  <vendor email="mfedko@gmail.com" url="https://github.com/mfedko/idea-file-language">Mikhail Fedko</vendor>
 
   <description><![CDATA[
-      Set custom language for your files.
+      Override file language. Useful for "unknown" files or files without extensions. Similar to SublimeText set syntax functionality.
       <p />
     ]]></description>
 
   <change-notes><![CDATA[
-      0.0.2 - made plugin EAP-15 compatible.
+      0.0.3 - made plugin EAP-15 compatible.<br />
       0.0.1 - initial version.
     ]]>
   </change-notes>
