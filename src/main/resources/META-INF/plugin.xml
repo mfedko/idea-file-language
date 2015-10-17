@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.github.mfedko.idea.plugins.filelanguage</id>
   <name>Override File Language</name>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
   <vendor email="mfedko@gmail.com" url="https://github.com/mfedko/idea-file-language">Mikhail Fedko</vendor>
 
   <description><![CDATA[
