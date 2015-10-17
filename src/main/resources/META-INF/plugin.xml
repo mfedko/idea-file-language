@@ -38,7 +38,8 @@
   <actions>
       <group class="com.github.mfedko.idea.plugins.filelanguage.SetFileLanguageActionGroup"
              popup="true"
-             text="File Languages"
+             text="File _Language"
+             description="Override file language"
              id="ChangeFileLanguage" />
   </actions>
 
