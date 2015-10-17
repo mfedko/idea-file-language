@@ -1,0 +1,14 @@
+plugins {
+    id "org.jetbrains.intellij" version "0.0.23"
+}
+
+apply plugin: 'org.jetbrains.intellij'
+
+intellij {
+    version '14.1.4'
+    sandboxDirectory 'sample'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.7'
+}

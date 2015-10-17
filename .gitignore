@@ -1,4 +1,5 @@
-out
-.idea/workspace.xml
-sample/.idea/workspace.xml
-*.jar
+sample/.idea
+#*.iml
+.gradle
+build
+
