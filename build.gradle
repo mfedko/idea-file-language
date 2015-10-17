@@ -8,6 +8,8 @@ intellij {
     updateSinceUntilBuild = false
 }
 
+project.version = '0.1.0'
+
 task wrapper(type: Wrapper) {
     gradleVersion = '2.7'
 }

@@ -1,4 +1,4 @@
-<idea-plugin version="2">
+<idea-plugin>
   <id>com.github.mfedko.idea.plugins.filelanguage</id>
   <name>Override File Language</name>
   <version>0.1.0</version>
@@ -6,15 +6,12 @@
 
   <description><![CDATA[
       Override file language. Useful for "unknown" files or files without extensions. Similar to SublimeText set syntax functionality.
-      <p />
     ]]></description>
 
   <change-notes><![CDATA[
-      0.1.0 - PHPStorm 9.0.2 Exception fixed
-      0.0.3 - made plugin EAP-15 compatible.<br />
-      0.0.1 - initial version.
-    ]]>
-  </change-notes>
+      0.1.0 - PHPStorm 9.0.2 Exception fixed<br />
+      0.0.3 - made plugin EAP-15 compatible<br />
+      0.0.1 - initial version.]]></change-notes>
 
   <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
   <idea-version since-build="141"/>
