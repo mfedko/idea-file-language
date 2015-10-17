@@ -1,5 +1,9 @@
-sample/.idea
-#*.iml
+*.iml
+.idea
 .gradle
 build
+/idea-sandbox/plugins
+!/idea-sandbox/.idea
+!/idea-sandbox/cantent.iml
+
 

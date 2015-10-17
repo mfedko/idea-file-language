@@ -71,52 +71,55 @@ public class FileLanguagePanel extends EditorBasedWidget implements StatusBarWid
     }
 
     private void update() {
-        UIUtil.invokeLaterIfNeeded(() -> {
-            VirtualFile file = getSelectedFile();
-            myActionEnabled = true;
-            Language language = null;
-            String toolTipText = null;
-            String panelText = null;
+        UIUtil.invokeLaterIfNeeded(new Runnable() {
+            @Override
+            public void run() {
+                VirtualFile file = FileLanguagePanel.this.getSelectedFile();
+                myActionEnabled = true;
+                Language language = null;
+                String toolTipText = null;
+                String panelText = null;
 
-            if (file != null) {
-                FileViewProvider viewProvider = PsiManager.getInstance(myProject).findViewProvider(file);
-                language = viewProvider != null ? viewProvider.getBaseLanguage() : null;
+                if (file != null) {
+                    FileViewProvider viewProvider = PsiManager.getInstance(myProject).findViewProvider(file);
+                    language = viewProvider != null ? viewProvider.getBaseLanguage() : null;
 
-                if (language != null) {
-                    toolTipText = String.format("Language: %s",
-                            StringUtil.escapeLineBreak(language.getDisplayName()));
-                    panelText = language.getDisplayName();
+                    if (language != null) {
+                        toolTipText = String.format("Language: %s",
+                                StringUtil.escapeLineBreak(language.getDisplayName()));
+                        panelText = language.getDisplayName();
+                    }
                 }
-            }
 
-            if (language == null) {
-                toolTipText = "No language";
-                panelText = "n/a";
-                myActionEnabled = false;
-            }
+                if (language == null) {
+                    toolTipText = "No language";
+                    panelText = "n/a";
+                    myActionEnabled = false;
+                }
 
-            myComponent.resetColor();
+                myComponent.resetColor();
 
-            String toDoComment;
+                String toDoComment;
 
-            if (myActionEnabled) {
-                toDoComment = "Click to change";
-                myComponent.setForeground(UIUtil.getActiveTextColor());
-                myComponent.setTextAlignment(Component.LEFT_ALIGNMENT);
-            } else {
-                toDoComment = "";
-                myComponent.setForeground(UIUtil.getInactiveTextColor());
-                myComponent.setTextAlignment(Component.CENTER_ALIGNMENT);
-            }
+                if (myActionEnabled) {
+                    toDoComment = "Click to change";
+                    myComponent.setForeground(UIUtil.getActiveTextColor());
+                    myComponent.setTextAlignment(Component.LEFT_ALIGNMENT);
+                } else {
+                    toDoComment = "";
+                    myComponent.setForeground(UIUtil.getInactiveTextColor());
+                    myComponent.setTextAlignment(Component.CENTER_ALIGNMENT);
+                }
 
-            myComponent.setToolTipText(String.format("%s%n%s",
-                    toolTipText,
-                    toDoComment));
-            myComponent.setText(panelText);
+                myComponent.setToolTipText(String.format("%s%n%s",
+                        toolTipText,
+                        toDoComment));
+                myComponent.setText(panelText);
 
 
-            if (myStatusBar != null) {
-                myStatusBar.updateWidget(ID());
+                if (myStatusBar != null) {
+                    myStatusBar.updateWidget(FileLanguagePanel.this.ID());
+                }
             }
         });
     }

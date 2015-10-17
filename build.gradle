@@ -5,8 +5,7 @@ plugins {
 apply plugin: 'org.jetbrains.intellij'
 
 intellij {
-    version '14.1.4'
-    sandboxDirectory 'sample'
+    version = '14.1.4'
 }
 
 task wrapper(type: Wrapper) {
