@@ -5,7 +5,7 @@ plugins {
 apply plugin: 'org.jetbrains.intellij'
 
 intellij {
-    version = '14.1.4'
+    updateSinceUntilBuild = false
 }
 
 task wrapper(type: Wrapper) {

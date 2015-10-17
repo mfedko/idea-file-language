@@ -3,7 +3,3 @@
 .gradle
 build
 /idea-sandbox/plugins
-!/idea-sandbox/.idea
-!/idea-sandbox/cantent.iml
-
-

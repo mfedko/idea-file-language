@@ -67,7 +67,6 @@ public class FileLanguagePanel extends EditorBasedWidget implements StatusBarWid
                 return true;
             }
         }.installOn(myComponent);
-        myComponent.setBorder(WidgetBorder.INSTANCE);
     }
 
     private void update() {
