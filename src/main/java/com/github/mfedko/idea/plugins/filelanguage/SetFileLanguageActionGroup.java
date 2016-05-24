@@ -13,24 +13,18 @@ import java.util.*;
 
 public class SetFileLanguageActionGroup extends ActionGroup {
 
-    final private Supplier<AnAction[]> actionsSupplier = Suppliers.memoize(new Supplier<AnAction[]>() {
-        @Override
-        public AnAction[] get() {
-            List<Language> languages = new ArrayList<Language>(Language.getRegisteredLanguages());
-            Collections.sort(languages, new Comparator<Language>() {
-                @Override
-                public int compare(Language o1, Language o2) {
-                    return o1.getDisplayName().compareTo(o2.getDisplayName());
-                }
-            });
-            AnAction[] actions = new AnAction[languages.size()];
-            int i = 0;
-            for (Language language : languages) {
-                actions[i] = new SetFileLanguageAction(language);
-                ++i;
-            }
-            return actions;
+    final private Supplier<AnAction[]> actionsSupplier = Suppliers.memoize(() -> {
+
+        List<Language> languages = new ArrayList<>(Language.getRegisteredLanguages());
+        Collections.sort(languages, (o1, o2) -> o1.getDisplayName().compareTo(o2.getDisplayName()));
+        AnAction[] actions = new AnAction[languages.size()];
+        int i = 0;
+        for (Language language : languages) {
+            actions[i] = new SetFileLanguageAction(language);
+            ++i;
         }
+        return actions;
+
     });
 
     @NotNull

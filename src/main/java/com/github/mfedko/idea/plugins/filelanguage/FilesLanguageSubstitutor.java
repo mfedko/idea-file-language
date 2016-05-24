@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class FilesLanguageSubstitutor extends LanguageSubstitutor {
 
-    public static final Key<Language> LANGUAGE_KEY = Key.create(FilesLanguageSubstitutor.class.getName() + ".language");
+    static final Key<Language> LANGUAGE_KEY = Key.create(FilesLanguageSubstitutor.class.getName() + ".language");
 
     @Nullable
     @Override

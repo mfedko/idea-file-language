@@ -36,14 +36,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public class FileLanguagePanel extends EditorBasedWidget implements StatusBarWidget.Multiframe, CustomStatusBarWidget {
+class FileLanguagePanel extends EditorBasedWidget implements StatusBarWidget.Multiframe, CustomStatusBarWidget {
 
     @NotNull
     private final TextPanel myComponent;
 
     private boolean myActionEnabled;
 
-    public FileLanguagePanel(@NotNull final Project project) {
+    FileLanguagePanel(@NotNull final Project project) {
         super(project);
 
         myComponent = new TextPanel() {
@@ -70,55 +70,53 @@ public class FileLanguagePanel extends EditorBasedWidget implements StatusBarWid
     }
 
     private void update() {
-        UIUtil.invokeLaterIfNeeded(new Runnable() {
-            @Override
-            public void run() {
-                VirtualFile file = FileLanguagePanel.this.getSelectedFile();
-                myActionEnabled = true;
-                Language language = null;
-                String toolTipText = null;
-                String panelText = null;
+        UIUtil.invokeLaterIfNeeded(() -> {
 
-                if (file != null) {
-                    FileViewProvider viewProvider = PsiManager.getInstance(myProject).findViewProvider(file);
-                    language = viewProvider != null ? viewProvider.getBaseLanguage() : null;
+            VirtualFile file = FileLanguagePanel.this.getSelectedFile();
+            myActionEnabled = true;
+            Language language = null;
+            String toolTipText = null;
+            String panelText = null;
 
-                    if (language != null) {
-                        toolTipText = String.format("Language: %s",
-                                StringUtil.escapeLineBreak(language.getDisplayName()));
-                        panelText = language.getDisplayName();
-                    }
+            if (file != null) {
+                FileViewProvider viewProvider = PsiManager.getInstance(myProject).findViewProvider(file);
+                language = viewProvider != null ? viewProvider.getBaseLanguage() : null;
+
+                if (language != null) {
+                    toolTipText = String.format("Language: %s",
+                            StringUtil.escapeLineBreak(language.getDisplayName()));
+                    panelText = language.getDisplayName();
                 }
+            }
 
-                if (language == null) {
-                    toolTipText = "No language";
-                    panelText = "n/a";
-                    myActionEnabled = false;
-                }
+            if (language == null) {
+                toolTipText = "No language";
+                panelText = "n/a";
+                myActionEnabled = false;
+            }
 
-                myComponent.resetColor();
+            myComponent.resetColor();
 
-                String toDoComment;
+            String toDoComment;
 
-                if (myActionEnabled) {
-                    toDoComment = "Click to change";
-                    myComponent.setForeground(UIUtil.getActiveTextColor());
-                    myComponent.setTextAlignment(Component.LEFT_ALIGNMENT);
-                } else {
-                    toDoComment = "";
-                    myComponent.setForeground(UIUtil.getInactiveTextColor());
-                    myComponent.setTextAlignment(Component.CENTER_ALIGNMENT);
-                }
+            if (myActionEnabled) {
+                toDoComment = "Click to change";
+                myComponent.setForeground(UIUtil.getActiveTextColor());
+                myComponent.setTextAlignment(Component.LEFT_ALIGNMENT);
+            } else {
+                toDoComment = "";
+                myComponent.setForeground(UIUtil.getInactiveTextColor());
+                myComponent.setTextAlignment(Component.CENTER_ALIGNMENT);
+            }
 
-                myComponent.setToolTipText(String.format("%s%n%s",
-                        toolTipText,
-                        toDoComment));
-                myComponent.setText(panelText);
+            myComponent.setToolTipText(String.format("%s%n%s",
+                    toolTipText,
+                    toDoComment));
+            myComponent.setText(panelText);
 
 
-                if (myStatusBar != null) {
-                    myStatusBar.updateWidget(FileLanguagePanel.this.ID());
-                }
+            if (myStatusBar != null) {
+                myStatusBar.updateWidget(FileLanguagePanel.this.ID());
             }
         });
     }
@@ -179,7 +177,8 @@ public class FileLanguagePanel extends EditorBasedWidget implements StatusBarWid
 
     @Override
     public StatusBarWidget copy() {
-        return new FileLanguagePanel(getProject());
+        Project project = getProject();
+        return project == null ? null : new FileLanguagePanel(project);
     }
 
     @NotNull
@@ -205,7 +204,7 @@ public class FileLanguagePanel extends EditorBasedWidget implements StatusBarWid
         update();
     }
 
-    public void doUpdate() {
+    void doUpdate() {
         update();
     }
 }
