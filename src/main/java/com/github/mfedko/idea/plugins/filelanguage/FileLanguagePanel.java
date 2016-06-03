@@ -1,10 +1,28 @@
 package com.github.mfedko.idea.plugins.filelanguage;
 
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JComponent;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.intellij.AppTopics;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.DataManager;
 import com.intellij.lang.Language;
-import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.actionSystem.ActionGroup;
+import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
+import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.actionSystem.impl.SimpleDataContext;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Document;
@@ -29,12 +47,6 @@ import com.intellij.ui.ClickListener;
 import com.intellij.ui.awt.RelativePoint;
 import com.intellij.util.messages.MessageBusConnection;
 import com.intellij.util.ui.UIUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseEvent;
 
 class FileLanguagePanel extends EditorBasedWidget implements StatusBarWidget.Multiframe, CustomStatusBarWidget {
 
@@ -46,7 +58,7 @@ class FileLanguagePanel extends EditorBasedWidget implements StatusBarWidget.Mul
     FileLanguagePanel(@NotNull final Project project) {
         super(project);
 
-        myComponent = new TextPanel() {
+        myComponent = new TextPanel.ExtraSize() {
             @Override
             protected void paintComponent(@NotNull final Graphics g) {
                 super.paintComponent(g);
@@ -67,12 +79,13 @@ class FileLanguagePanel extends EditorBasedWidget implements StatusBarWidget.Mul
                 return true;
             }
         }.installOn(myComponent);
+        myComponent.setBorder(WidgetBorder.WIDE);
     }
 
     private void update() {
         UIUtil.invokeLaterIfNeeded(() -> {
 
-            VirtualFile file = FileLanguagePanel.this.getSelectedFile();
+            VirtualFile file = getSelectedFile();
             myActionEnabled = true;
             Language language = null;
             String toolTipText = null;
@@ -83,8 +96,7 @@ class FileLanguagePanel extends EditorBasedWidget implements StatusBarWidget.Mul
                 language = viewProvider != null ? viewProvider.getBaseLanguage() : null;
 
                 if (language != null) {
-                    toolTipText = String.format("Language: %s",
-                            StringUtil.escapeLineBreak(language.getDisplayName()));
+                    toolTipText = String.format("Language: %s", StringUtil.escapeLineBreak(language.getDisplayName()));
                     panelText = language.getDisplayName();
                 }
             }
@@ -109,14 +121,12 @@ class FileLanguagePanel extends EditorBasedWidget implements StatusBarWidget.Mul
                 myComponent.setTextAlignment(Component.CENTER_ALIGNMENT);
             }
 
-            myComponent.setToolTipText(String.format("%s%n%s",
-                    toolTipText,
-                    toDoComment));
+            myComponent.setToolTipText(String.format("%s%n%s", toolTipText, toDoComment));
             myComponent.setText(panelText);
 
 
             if (myStatusBar != null) {
-                myStatusBar.updateWidget(FileLanguagePanel.this.ID());
+                myStatusBar.updateWidget(ID());
             }
         });
     }
@@ -162,7 +172,7 @@ class FileLanguagePanel extends EditorBasedWidget implements StatusBarWidget.Mul
         DataContext parent = DataManager.getInstance().getDataContext((Component) myStatusBar);
         return SimpleDataContext.getSimpleContext(
                 CommonDataKeys.VIRTUAL_FILE.getName(),
-                getSelectedFile(),
+                new VirtualFile[] {getSelectedFile()},
                 SimpleDataContext.getSimpleContext(CommonDataKeys.PROJECT.getName(),
                         getProject(),
                         SimpleDataContext.getSimpleContext(PlatformDataKeys.CONTEXT_COMPONENT.getName(),
@@ -195,7 +205,9 @@ class FileLanguagePanel extends EditorBasedWidget implements StatusBarWidget.Mul
 
     @Override
     public void selectionChanged(@NotNull FileEditorManagerEvent event) {
-        if (ApplicationManager.getApplication().isUnitTestMode()) return;
+        if (ApplicationManager.getApplication().isUnitTestMode()) {
+            return;
+        }
         update();
     }
 

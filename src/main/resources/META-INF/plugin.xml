@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.github.mfedko.idea.plugins.filelanguage</id>
   <name>Override File Language</name>
-  <version>0.1.1</version>
+  <version>0.1.2</version>
   <vendor email="mfedko@gmail.com" url="https://github.com/mfedko/idea-file-language">Mikhail Fedko</vendor>
 
   <description><![CDATA[
@@ -9,6 +9,7 @@
     ]]></description>
 
   <change-notes><![CDATA[
+      0.1.2 - UI fixes <br />
       0.1.0 - PHPStorm 9.0.2 Exception fixed<br />
       0.0.3 - made plugin EAP-15 compatible<br />
       0.0.1 - initial version.]]></change-notes>

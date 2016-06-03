@@ -5,13 +5,13 @@ buildscript {
 }
 
 plugins {
-    id "org.jetbrains.intellij" version "0.1.2"
+    id "org.jetbrains.intellij" version "0.1.5"
 }
 
 apply plugin: 'org.jetbrains.intellij'
 
 intellij {
-    updateSinceUntilBuild = false
+    version = 2016.1
 }
 
 task wrapper(type: Wrapper) {

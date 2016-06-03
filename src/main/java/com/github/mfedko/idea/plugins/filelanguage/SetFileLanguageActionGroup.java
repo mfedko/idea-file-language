@@ -24,7 +24,6 @@ public class SetFileLanguageActionGroup extends ActionGroup {
             ++i;
         }
         return actions;
-
     });
 
     @NotNull
