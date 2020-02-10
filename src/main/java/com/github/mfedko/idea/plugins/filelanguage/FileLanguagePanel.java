@@ -1,14 +1,9 @@
 package com.github.mfedko.idea.plugins.filelanguage;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JComponent;
+import javax.swing.*;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -27,7 +22,7 @@ import com.intellij.openapi.actionSystem.impl.SimpleDataContext;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.fileEditor.FileDocumentManagerAdapter;
+import com.intellij.openapi.fileEditor.FileDocumentManagerListener;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.FileEditorManagerEvent;
 import com.intellij.openapi.project.Project;
@@ -158,7 +153,7 @@ class FileLanguagePanel extends EditorBasedWidget implements StatusBarWidget.Mul
     public void install(@NotNull StatusBar statusBar) {
         super.install(statusBar);
         MessageBusConnection connection = ApplicationManager.getApplication().getMessageBus().connect(this);
-        connection.subscribe(AppTopics.FILE_DOCUMENT_SYNC, new FileDocumentManagerAdapter() {
+        connection.subscribe(AppTopics.FILE_DOCUMENT_SYNC, new FileDocumentManagerListener() {
             @Override
             public void fileContentReloaded(@NotNull VirtualFile file, @NotNull Document document) {
                 update();

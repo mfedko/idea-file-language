@@ -18,7 +18,7 @@ public class SetFileLanguageAction extends AnAction {
 
     private final Language language;
 
-    public SetFileLanguageAction(@NotNull Language language) {
+    SetFileLanguageAction(@NotNull Language language) {
         super(language.getDisplayName());
         this.language = language;
     }
@@ -60,5 +60,12 @@ public class SetFileLanguageAction extends AnAction {
             }
 
         });
+    }
+
+    @Override
+    public void update(AnActionEvent anActionEvent) {
+        // Set the availability based on whether a project is open
+        Project project = anActionEvent.getProject();
+        anActionEvent.getPresentation().setEnabledAndVisible(project != null);
     }
 }

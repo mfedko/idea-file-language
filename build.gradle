@@ -1,13 +1,15 @@
 plugins {
-    id "org.jetbrains.intellij" version "0.3.1"
+//    https://github.com/JetBrains/gradle-intellij-plugin
+    id "org.jetbrains.intellij" version "0.4.16"
 }
 
 apply plugin: 'org.jetbrains.intellij'
 
 intellij {
-    version = 2018.1
+    version = 2019.3
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.6'
+wrapper {
+    gradleVersion = '6.1.1'
+    distributionUrl = distributionUrl.replace("bin", "all")
 }
