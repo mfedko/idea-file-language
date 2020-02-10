@@ -43,6 +43,7 @@ import com.intellij.ui.awt.RelativePoint;
 import com.intellij.util.messages.MessageBusConnection;
 import com.intellij.util.ui.UIUtil;
 
+// TODO: migrate as of com.intellij.openapi.wm.impl.status.EncodingPanel
 class FileLanguagePanel extends EditorBasedWidget implements StatusBarWidget.Multiframe, CustomStatusBarWidget {
 
     @NotNull
