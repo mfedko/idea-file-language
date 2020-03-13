@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.github.mfedko.idea.plugins.filelanguage</id>
   <name>Override File Language</name>
-    <version>2019.3</version>
+    <version>2020.1</version>
   <vendor email="mfedko@gmail.com" url="https://github.com/mfedko/idea-file-language">Mikhail Fedko</vendor>
 
   <description><![CDATA[
@@ -9,41 +9,37 @@
     ]]></description>
 
   <change-notes><![CDATA[
-      2019.3 - Idea.2019.3 <br />
+      2020.1 - Idea.2020.1 <br />
       0.1.3 - Idea.2018.1 <br />
       0.1.2 - UI fixes <br />
       0.1.0 - PHPStorm 9.0.2 Exception fixed<br />
       0.0.3 - made plugin EAP-15 compatible<br />
       0.0.1 - initial version.]]></change-notes>
 
-  <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
-  <idea-version since-build="193"/>
+    <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
+    <idea-version since-build="201"/>
 
-  <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
-       on how to target different products -->
-  <depends>com.intellij.modules.lang</depends>
+    <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
+         on how to target different products -->
+    <depends>com.intellij.modules.lang</depends>
 
-  <extensions defaultExtensionNs="com.intellij">
-    <lang.substitutor
-            language="TEXT"
-            implementationClass="com.github.mfedko.idea.plugins.filelanguage.FilesLanguageSubstitutor"/>
-  </extensions>
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceImplementation="com.github.mfedko.idea.plugins.filelanguage.FileLanguageManager" />
+        <lang.substitutor
+                language="TEXT"
+                implementationClass="com.github.mfedko.idea.plugins.filelanguage.FilesLanguageSubstitutor"/>
+        <statusBarWidgetProvider
+                implementation="com.github.mfedko.idea.plugins.filelanguage.FileLanguageWidgetProvider"/>
+    </extensions>
 
-  <application-components>
-  </application-components>
-
-  <project-components>
-      <component>
-          <implementation-class>com.github.mfedko.idea.plugins.filelanguage.FileLanguageProjectComponent</implementation-class>
-      </component>
-  </project-components>
-
-  <actions>
-      <group class="com.github.mfedko.idea.plugins.filelanguage.SetFileLanguageActionGroup"
-             popup="true"
-             text="File _Language"
-             description="Override file language"
-             id="ChangeFileLanguage" />
-  </actions>
+    <actions>
+        <action class="com.github.mfedko.idea.plugins.filelanguage.SetFileLanguageAction"
+                popup="true"
+                text="Override File Language"
+                description="Override file language"
+                id="ChangeFileLanguage">
+            <keyboard-shortcut first-keystroke="ctrl shift t" keymap="$default"/>
+        </action>
+    </actions>
 
 </idea-plugin>

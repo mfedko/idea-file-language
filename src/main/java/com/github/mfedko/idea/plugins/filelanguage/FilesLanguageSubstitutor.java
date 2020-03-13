@@ -15,7 +15,6 @@ public class FilesLanguageSubstitutor extends LanguageSubstitutor {
     @Nullable
     @Override
     public Language getLanguage(@NotNull VirtualFile virtualFile, @NotNull Project project) {
-
         return virtualFile.getUserData(LANGUAGE_KEY);
     }
 }
