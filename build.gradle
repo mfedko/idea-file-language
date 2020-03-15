@@ -9,6 +9,10 @@ intellij {
     version = 2019.3
 }
 
+publishPlugin {
+    token intellijPublishToken
+}
+
 wrapper {
     gradleVersion = '6.1.1'
     distributionUrl = distributionUrl.replace("bin", "all")
