@@ -53,24 +53,17 @@ public class FileLanguageUtil {
     }
 
     @Nullable
-    static FailReason checkCanConvertAndReload(@NotNull VirtualFile selectedFile) {
-        FailReason result = checkCanConvert(selectedFile);
-        if (result == null) return null;
-        return checkCanReload(selectedFile, null);
-    }
-
-    @Nullable
     public static Pair<Language, String> getLanguageAndTheReasonTooltip(@NotNull VirtualFile file) {
         FailReason r1 = checkCanConvert(file);
         if (r1 == null) return null;
         Ref<Language> current = Ref.create();
         FailReason r2 = checkCanReload(file, current);
         if (r2 == null) return null;
-        String errorDescription = r1 == r2 ? reasonToString(r1, file) : reasonToString(r1, file) + ", " + reasonToString(r2, file);
+        String errorDescription = r1 == r2 ? reasonToString(r1) : reasonToString(r1) + ", " + reasonToString(r2);
         return Pair.create(current.get(), errorDescription);
     }
 
-    static String reasonToString(@NotNull FailReason reason, VirtualFile file) {
+    static String reasonToString(@NotNull FailReason reason) {
         switch (reason) {
             case IS_DIRECTORY:
                 return "disabled for a directory";
@@ -78,42 +71,13 @@ public class FileLanguageUtil {
                 return "disabled for a binary file";
             case BY_FILE:
                 return "language is hard-coded in the file";
-            case BY_BOM:
-                return "language is auto-detected by BOM";
-            case BY_BYTES:
-                return "language is auto-detected from content";
-            case BY_FILETYPE:
-                return "disabled for " + file.getFileType().getDescription();
         }
         throw new AssertionError(reason);
-    }
-
-    @NotNull
-    @Deprecated
-    static Magic8 isSafeToReloadIn(@NotNull VirtualFile virtualFile, @NotNull CharSequence text, @NotNull byte[] bytes, @NotNull Language language) {
-        return Magic8.ABSOLUTELY;
-    }
-
-    @NotNull
-    @Deprecated
-    static Magic8 isSafeToConvertTo(@NotNull VirtualFile virtualFile, @NotNull Language text, @NotNull byte[] bytesOnDisk, @NotNull Language language) {
-        return Magic8.ABSOLUTELY;
     }
 
     enum FailReason {
         IS_DIRECTORY,
         IS_BINARY,
-        BY_FILE,
-        @Deprecated BY_BOM,
-        @Deprecated BY_BYTES,
-        @Deprecated BY_FILETYPE
-    }
-
-    // the result of wild guess
-    @Deprecated
-    public enum Magic8 {
-        ABSOLUTELY,
-        WELL_IF_YOU_INSIST,
-        NO_WAY
+        BY_FILE
     }
 }

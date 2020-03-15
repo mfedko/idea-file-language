@@ -38,7 +38,7 @@
                 text="Override File Language"
                 description="Override file language"
                 id="ChangeFileLanguage">
-            <keyboard-shortcut first-keystroke="ctrl shift t" keymap="$default"/>
+            <keyboard-shortcut first-keystroke="ctrl alt shift o" keymap="$default"/>
         </action>
     </actions>
 

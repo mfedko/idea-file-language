@@ -5,8 +5,6 @@ import org.jetbrains.annotations.Nullable;
 
 import com.intellij.lang.Language;
 import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.popup.ListPopup;
 import com.intellij.openapi.util.Pair;
@@ -33,8 +31,7 @@ class FileLanguagePanel extends EditorBasedStatusBarPopup {
         }
 
         Pair<Language, String> check = FileLanguageUtil.getLanguageAndTheReasonTooltip(file);
-        final Document document = FileDocumentManager.getInstance().getDocument(file);
-        final Language cachedLanguage = document == null ? null : FileLanguageManager.getCachedLanguageFromFile(document);
+        final Language cachedLanguage = FileLanguageManager.computeLanguageFromFile(file);
         String failReason = Pair.getSecond(check);
         Language language = Pair.getFirst(check) != null ? Pair.getFirst(check) : cachedLanguage;
         String languageName = ObjectUtils.notNull(language == null ? N_A : language.getDisplayName(), N_A);
@@ -54,8 +51,8 @@ class FileLanguagePanel extends EditorBasedStatusBarPopup {
     protected void registerCustomListeners() {
         FileLanguageManager.getInstance().addPropertyChangeListener(evt -> {
             if (evt.getPropertyName().equals(FileLanguageManager.PROP_LANGUAGE_CHANGED)) {
-                Document document = evt.getSource() instanceof Document ? (Document)evt.getSource() : null;
-                updateForDocument(document);
+                VirtualFile file = evt.getSource() instanceof VirtualFile ? (VirtualFile) evt.getSource() : null;
+                updateForFile(file);
             }
         }, this);
     }

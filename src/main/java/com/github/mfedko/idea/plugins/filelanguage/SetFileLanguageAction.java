@@ -28,7 +28,9 @@ import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.intellij.openapi.ui.popup.ListPopup;
 import com.intellij.openapi.vfs.VirtualFile;
 
-// TODO: migrate as of com.intellij.openapi.wm.impl.status.EncodingPanel
+/**
+ * {@link com.intellij.openapi.wm.impl.status.EncodingPanel}
+ */
 public class SetFileLanguageAction extends AnAction implements DumbAware {
 
     private final boolean allowDirectories;
@@ -41,7 +43,7 @@ public class SetFileLanguageAction extends AnAction implements DumbAware {
         this.allowDirectories = allowDirectories;
     }
 
-    public static boolean changeTo(Project project, @NotNull Document document,
+    public static void changeTo(Project project, @NotNull Document document,
                                    @NotNull VirtualFile virtualFile,
                                    @NotNull Language language
     ) {
@@ -73,8 +75,6 @@ public class SetFileLanguageAction extends AnAction implements DumbAware {
             UndoManager undoManager = project == null ? UndoManager.getGlobalInstance() : UndoManager.getInstance(project);
             undoManager.undoableActionPerformed(action);
         }, "Change file type for '" + virtualFile.getName() + "'", null, UndoConfirmationPolicy.REQUEST_CONFIRMATION);
-
-        return true;
     }
 
     private boolean checkEnabled(@NotNull VirtualFile virtualFile) {
@@ -108,15 +108,14 @@ public class SetFileLanguageAction extends AnAction implements DumbAware {
         if (!allowDirectories && virtualFile.isDirectory() || document == null && !virtualFile.isDirectory())
             return null;
 
-        DefaultActionGroup group = createActionGroup(virtualFile, document, null);
+        DefaultActionGroup group = createActionGroup(virtualFile, document);
 
         return JBPopupFactory.getInstance().createActionGroupPopup(getTemplatePresentation().getText(),
                 group, dataContext, JBPopupFactory.ActionSelectionAid.SPEEDSEARCH, false);
     }
 
     public DefaultActionGroup createActionGroup(@Nullable final VirtualFile myFile,
-                                                final Document document,
-                                                @Nullable final String clearItemText) {
+                                                final Document document) {
         return new ChooseFileTypeAction(myFile) {
             @Override
             public void update(@NotNull final AnActionEvent e) {
@@ -125,8 +124,8 @@ public class SetFileLanguageAction extends AnAction implements DumbAware {
             @NotNull
             @Override
             protected DefaultActionGroup createPopupActionGroup(JComponent button) {
-                return createFileTypeActionGroup(clearItemText, null, language -> "Change file type to '" + language.getDisplayName() + "'");
-                // no 'clear'
+                return createFileTypeActionGroup(
+                        language -> "Change file type to '" + language.getDisplayName() + "'");
             }
 
             @Override
@@ -137,14 +136,14 @@ public class SetFileLanguageAction extends AnAction implements DumbAware {
                 .createPopupActionGroup(null);
     }
 
-    // returns true if language was changed, false if failed
-    protected boolean chosen(final Document document,
-                             @Nullable final VirtualFile virtualFile,
-                             @NotNull final Language charset) {
-        if (virtualFile == null) return false;
+    protected void chosen(final Document document,
+                          @Nullable final VirtualFile virtualFile,
+                          @NotNull final Language charset
+    ) {
+        if (virtualFile == null) return;
 
         final Project project = ProjectLocator.getInstance().guessProjectForFile(virtualFile);
-        return changeTo(project, document, virtualFile, charset);
+        changeTo(project, document, virtualFile, charset);
     }
 
     @Override

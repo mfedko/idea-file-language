@@ -5,7 +5,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -34,9 +34,11 @@ import com.intellij.openapi.vfs.VirtualFile;
 
 public class FileLanguageManager {
 
-    public static final String PROP_LANGUAGE_CHANGED = "cachedLanguage";
     private static final Logger LOG = Logger.getInstance(FileLanguageManager.class);
-    private static final Key<Language> CACHED_LANGUAGE_FOR_FILE = Key.create("CACHED_LANGUAGE_FOR_FILE");
+    private static final Key<Language> CACHED_LANGUAGE_FOR_FILE = Key.create(FileLanguageManager.class.getName() + ".language");
+
+    public static final String PROP_LANGUAGE_CHANGED = "cachedLanguage";
+
     private final PropertyChangeSupport myPropertyChangeSupport = new PropertyChangeSupport(this);
 
     @Nullable
@@ -69,13 +71,13 @@ public class FileLanguageManager {
     }
 
     public static Collection<Language> getFavorites() {
-        Set<Language> result = new HashSet<>();
+        Set<Language> result = new LinkedHashSet<>(widelyKnownLanguages());
 //        TODO: get per-project favorites
 //        Project[] projects = ProjectManager.getInstance().getOpenProjects();
 //        for (Project project : projects) {
 //            result.addAll(EncodingProjectManager.getInstance(project).getFavorites());
 //        }
-        result.addAll(widelyKnownLanguages());
+        result.remove(Language.ANY);
 
         return result;
     }
@@ -83,6 +85,8 @@ public class FileLanguageManager {
     private static Collection<Language> widelyKnownLanguages() {
         List<Language> languages = new ArrayList<>();
         Optional.ofNullable(Language.findLanguageByID("JSON")).ifPresent(languages::add);
+        Optional.ofNullable(Language.findLanguageByID("Markdown")).ifPresent(languages::add);
+        Optional.ofNullable(Language.findLanguageByID("yaml")).ifPresent(languages::add);
         languages.add(StdFileTypes.XML.getLanguage());
         languages.add(StdFileTypes.PROPERTIES.getLanguage());
         languages.add(StdFileTypes.PLAIN_TEXT.getLanguage());
